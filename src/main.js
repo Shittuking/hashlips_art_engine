@@ -21,6 +21,9 @@ const {
   network,
   solanaMetadata,
   gif,
+  hideDna,
+  hideDate,
+  hideEdition,
 } = require(`${basePath}/src/config.js`);
 const canvas = createCanvas(format.width, format.height);
 const ctx = canvas.getContext("2d");
@@ -32,6 +35,8 @@ const DNA_DELIMITER = "-";
 const HashlipsGiffer = require(`${basePath}/modules/HashlipsGiffer.js`);
 
 let hashlipsGiffer = null;
+
+const nameLength = namePrefix.length + 2;
 
 const buildSetup = () => {
   if (fs.existsSync(buildDir)) {
@@ -129,18 +134,25 @@ const drawBackground = () => {
 };
 
 const addMetadata = (_dna, _edition) => {
-  let dateTime = Date.now();
   let tempMetadata = {
     name: `${namePrefix} #${_edition}`,
     description: description,
     image: `${baseUri}/${_edition}.png`,
-    dna: sha1(_dna),
-    edition: _edition,
-    date: dateTime,
     ...extraMetadata,
     attributes: attributesList,
     compiler: "HashLips Art Engine",
   };
+
+  if (!hideDna) {
+    tempMetadata["dna"] = sha1(_dna);
+  }
+  if (!hideEdition) {
+    tempMetadata["edition"] = sha1(_edition);
+  }
+  if (!hideDate) {
+    tempMetadata["date"] = Date.now();
+  }
+
   if (network == NETWORK.sol) {
     tempMetadata = {
       //Added metadata for solana
@@ -308,7 +320,10 @@ const writeMetaData = (_data) => {
 };
 
 const saveMetaDataSingleFile = (_editionCount) => {
-  let metadata = metadataList.find((meta) => meta.edition == _editionCount);
+  let metadata = metadataList.find(
+    (meta) => meta.name.slice(nameLength) == _editionCount
+  );
+
   debugLogs
     ? console.log(
         `Writing metadata for ${_editionCount}: ${JSON.stringify(metadata)}`
