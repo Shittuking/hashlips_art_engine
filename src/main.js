@@ -15,10 +15,12 @@ const {
   rarityDelimiter,
   shuffleLayerConfigurations,
   debugLogs,
+  hideCompiler,
   extraMetadata,
   text,
   namePrefix,
   network,
+  compiler,
   solanaMetadata,
   gif,
   hideDna,
@@ -140,7 +142,6 @@ const addMetadata = (_dna, _edition) => {
     image: `${baseUri}/${_edition}.png`,
     ...extraMetadata,
     attributes: attributesList,
-    compiler: "HashLips Art Engine",
   };
 
   if (!hideDna) {
@@ -151,6 +152,9 @@ const addMetadata = (_dna, _edition) => {
   }
   if (!hideDate) {
     tempMetadata["date"] = Date.now();
+  }
+  if (!hideCompiler) {
+    tempMetadata["compiler"] = compiler;
   }
 
   if (network == NETWORK.sol) {
@@ -331,7 +335,7 @@ const saveMetaDataSingleFile = (_editionCount) => {
     : null;
   fs.writeFileSync(
     `${buildDir}/json/${_editionCount}.json`,
-    JSON.stringify(metadata, null, 2)
+    JSON.stringify(metadata, null, 1)
   );
 };
 
