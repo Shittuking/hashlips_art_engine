@@ -7,7 +7,9 @@ import shutil
 
 folder_path = os.path.join(os.getcwd(), "..", "build", "jsons")
 
-shutil.rmtree(folder_path)
+if os.path.exists(folder_path):
+    shutil.rmtree(folder_path)
+
 os.mkdir(folder_path)
 
 
