@@ -1,46 +1,40 @@
-from tkinter import Tk, filedialog
 import json
-import config
 import os
 import shutil
+import config
 
 
-folder_path = os.path.join(os.getcwd(), "..", "build", "jsons")
-
-if os.path.exists(folder_path):
-    shutil.rmtree(folder_path)
-
-os.mkdir(folder_path)
+# Define constants
+BASE_FILE = "base.json"
+JSONS_FOLDER = os.path.join(os.getcwd(), "..", "build", "jsons")
 
 
-root = Tk()
-root.withdraw()
- 
-root.destroy()
+# Remove existing JSONs folder (if any) and create an empty one
+if os.path.exists(JSONS_FOLDER):
+    shutil.rmtree(JSONS_FOLDER)
+os.mkdir(JSONS_FOLDER)
 
-base_file = open("base.json")
 
-base_data = json.loads(base_file.read()) 
- 
-if len(config.field.keys()) > 0:
+# Load base data from file and update with fields from config
+with open(BASE_FILE) as f:
+    base_data = json.load(f)
     for field, value in config.field.items():
         base_data[field] = value
-        print("Added ", field)
-        
+        print(f"Added {field}")
+
+
+# Serialize base data to JSON and write to file
 base_data_string = json.dumps(base_data)
-base_file.close()
-
-base_file = open("base.json", 'w')
-base_file.write(base_data_string)
+with open(BASE_FILE, "w") as f:
+    f.write(base_data_string)
 
 
+# Create duplicate JSON files
 count = config.number_of_duplicates
-
 for i in range(1, count+1):
-    file_path = os.path.join("..", "build", "jsons", f"{i}.json")
-    with open(file_path, "w") as file:
-        file.write(base_data_string.replace("***", f"{i}"))
-        file.close()
-print(f"Duplicated base data {count} times")
+    file_path = os.path.join(JSONS_FOLDER, f"{i}.json")
+    with open(file_path, "w") as f:
+        f.write(base_data_string.replace("***", f"{i}"))
+    print(f"Created {i}.json")
 
-base_file.close()
+print(f"Duplicated base data {count} times")

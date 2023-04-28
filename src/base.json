@@ -1,8 +1,1 @@
-{
-  "name": "Token #***",
-  "image": "ipfs://mytokenurl/***.png",
-  "attributes": [
-    { "trait_type": "chain", "value": "Telos" },
-    { "trait_type": "colour", "value": "red" }
-  ]
-}
+{"name": "Token #***", "image": "ipfs://mytokenurl/***.png", "attributes": [{"trait_type": "chain", "value": "Telos"}, {"trait_type": "colour", "value": "red"}], "Description": "Test duplication"}
