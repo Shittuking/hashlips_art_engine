@@ -2,6 +2,13 @@ const basePath = process.cwd();
 const { MODE } = require(`${basePath}/constants/blend_mode.js`);
 const { NETWORK } = require(`${basePath}/constants/network.js`);
 
+// For duplication
+number_of_duplicates = 5;
+
+additional_field = {
+  inspo: "real ***",
+};
+
 const network = NETWORK.eth;
 
 // General metadata for Ethereum
@@ -130,4 +137,6 @@ module.exports = {
   hideDna,
   hideDate,
   hideEdition,
+  number_of_duplicates,
+  additional_field,
 };
