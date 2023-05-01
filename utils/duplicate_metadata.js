@@ -26,14 +26,17 @@ const duplicate = () => {
     console.log(`Added ${field}`);
   }
 
-  let base_data_string = JSON.stringify(base_data);
+  let base_data_string = JSON.stringify(base_data, null, 2);
   fs.writeFileSync(BASE_FILE, base_data_string);
 
   // Create duplicate JSON files
   let count = number_of_duplicates;
   for (i = 1; i <= count; i++) {
     let file_path = path.join(JSONS_FOLDER, `${i}.json`);
-    fs.writeFileSync(file_path, base_data_string.replace(/\*\*\*/g, `${i}`));
+    fs.writeFileSync(
+      file_path,
+      JSON.stringify(base_data, null, 2).replace(/\*\*\*/g, `${i}`)
+    );
     console.log(`Created ${i}.json`);
   }
 
