@@ -9,6 +9,8 @@ additional_field = {
   inspo: "real ***",
 };
 
+fields_to_remove = ["inspo"];
+
 const network = NETWORK.eth;
 
 // General metadata for Ethereum
@@ -139,4 +141,5 @@ module.exports = {
   hideEdition,
   number_of_duplicates,
   additional_field,
+  fields_to_remove,
 };
